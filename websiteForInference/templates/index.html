@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Speed Prediction</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Speed Prediction</h1>
+
+        <div class="input-container">
+            <label for="modelSelect">Select Model:</label>
+            <select id="modelSelect">
+                <option value="LinearRegression">Linear Regression</option>
+                <option value="DecisionTree">Decision Tree</option>
+                <option value="RandomForest">Random Forest</option>
+            </select>
+        </div>
+        
+        <div class="input-container">
+            <label for="latLong">Enter Latitude and Longitude:</label>
+            <input type="text" id="latLong" placeholder="Enter Latitude, Longitude">
+        </div>
+
+        <button onclick="predictSpeed()">Predict Speed</button>
+
+        <p id="prediction"></p>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
