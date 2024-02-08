@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #1b1919;
     margin: 0;
     display: flex;
     justify-content: center;
@@ -17,7 +17,16 @@ body {
 }
 
 .input-container {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row; /* Set to row for horizontal arrangement */
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    flex-wrap: wrap; /* Allow wrapping to the next line if needed */
+}
+
+.input-container div {
+    margin: 10px;  /* Adjust margin between input fields */
 }
 
 .input-container label {
@@ -26,18 +35,12 @@ body {
     margin-bottom: 5px;
 }
 
-#modelSelect {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
 label {
     display: block;
     margin-bottom: 5px;
 }
 
-input {
+input, select {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;

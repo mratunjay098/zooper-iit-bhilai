@@ -2,24 +2,35 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import numpy as np
 import pickle
+import os
 
 app = Flask(__name__)
 
 # Load the selected model based on the dropdown choice
 def load_model(selected_model):
     # Replace this with your actual model loading code
-    if selected_model == 'LinearRegression':
-        model_filename = 'LinearRegression.pkl'
-    elif selected_model == 'DecisionTree':
-        model_filename = 'DecisionTree.pkl'
-    elif selected_model == 'RandomForest':
-        model_filename = 'RandomForest.pkl'
+    if selected_model == 'LinearRegressionLatLong':
+        model_filename = 'models/linearRegressionLatLong.pkl'
+    elif selected_model == 'DecisionTreeLatLong':
+        model_filename = 'models/decisionTreeLatLong.pkl'
+    elif selected_model == 'RandomForestLatLong':
+        model_filename = 'models/randomForestLatLong.pkl'
+    elif selected_model == 'LinearRegressionTSLatLong':
+        model_filename = 'models/linearRegressionTSLatLong.pkl'
+    elif selected_model == 'DecisionTreeTSLatLong':
+        model_filename = 'models/decisionTreeTSLatLong.pkl'
+    elif selected_model == 'LinearRegressionTSIRHLatLong':
+        model_filename = 'models/linearRegressionTSIRHLatLong.pkl'
+    elif selected_model == 'DecisionTreeTSIRHLatLong':
+        model_filename = 'models/decisionTreeTSIRHLatLong.pkl'
+    elif selected_model == 'RandomForestTSIRHLatLong':
+        model_filename = 'models/randomForestTSIRHLatLong.pkl'
     else:
         raise ValueError('Invalid model selection')
-
+    print(f"Attempting to load model from file: {os.path.abspath(model_filename)}")
     with open(model_filename, 'rb') as file:
         model = pickle.load(file)
-
+    print(f"Successfully loaded model: {model}")
     return model
 
 @app.route('/')
@@ -33,14 +44,37 @@ def predict_speed():
         latitude = float(data['latitude'])
         longitude = float(data['longitude'])
         selected_model = data['selectedModel']
+        if data['checkpoint']:
+            checkpoint = data['checkpoint']
+        if data['timestamp']:
+            timestamp = data['timestamp']
+        if data['traffic']:
+            traffic = data['traffic']
+        if data['intersection']:
+            intersection = data['intersection']
+        if data['roadHierarchy']:
+            road_hierarchy = data['roadHierarchy']
 
         model = load_model(selected_model)
 
-        speed_prediction = model.predict([[latitude, longitude]])
+        if selected_model in ['LinearRegressionLatLong', 'DecisionTreeLatLong', 'RandomForestLatLong']:
+            # These models use only latitude and longitude
+            speed_prediction = model.predict([[latitude, longitude]])
+            print(latitude, longitude)
+        elif selected_model in ['LinearRegressionTSLatLong', 'DecisionTreeTSLatLong']:
+            # These models use timestamp, latitude, and longitude
+            speed_prediction = model.predict([[timestamp, latitude, longitude]])
+            print(timestamp, latitude, longitude)
+        elif selected_model in ['LinearRegressionTSIRHLatLong', 'DecisionTreeTSIRHLatLong', 'RandomForestTSIRHLatLong']:
+            # These models use timestamp, latitude, and longitude
+            speed_prediction = model.predict([[timestamp, intersection, latitude, longitude, road_hierarchy]])
+            print(timestamp, intersection, latitude, longitude, road_hierarchy)
+        else:
+            raise ValueError('Invalid model selection')
 
         response = {
             'success': True,
-            'prediction': speed_prediction.tolist()[0]  # Convert NumPy array to Python list
+            'prediction': speed_prediction.tolist()[0]
         }
     except Exception as e:
         response = {
