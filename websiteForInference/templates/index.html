@@ -4,29 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Speed Prediction</title>
+    <title>Zooper Speed Prediction</title>
 </head>
 <body>
     <div class="container">
-        <h1>Speed Prediction</h1>
-
+        <img src="https://zooper.ai/wp-content/uploads/2022/06/zooper-logo-light-320.png" alt="Zooper" width="130" height="40">
+        <h1>Speed Prediction Module</h1>
         <div class="input-container">
-            <label for="modelSelect">Select Model:</label>
-            <select id="modelSelect">
-                <option value="LinearRegression">Linear Regression</option>
-                <option value="DecisionTree">Decision Tree</option>
-                <option value="RandomForest">Random Forest</option>
-            </select>
-        </div>
+            <div>
+                <label for="model-select">Select Model:</label>
+                <select id="model-select">
+                    <option value="LinearRegressionLatLong">Linear Regression (LatLong)</option>
+                    <option value="DecisionTreeLatLong">Decision Tree (LatLong)</option>
+                    <option value="RandomForestLatLong">Random Forest (LatLong)</option>
+                    <option value="LinearRegressionTSLatLong">Linear Regression (TS, LatLong)</option>
+                    <option value="DecisionTreeTSLatLong">Decision Tree (TS, LatLong)</option>
+                    <option value="LinearRegressionTSIRHLatLong">Linear Regression (TS, I, RH, LatLong)</option>
+                    <option value="DecisionTreeTSIRHLatLong">Decision Tree (TS, I, RH, LatLong)</option>
+                    <option value="RandomForestTSIRHLatLong">Random Forest (TS, I, RH, LatLong)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="checkpoint">Checkpoint (CP):</label>
+                <input type="text" id="checkpoint" placeholder="Enter Checkpoint">
+            </div>
+
+            <div>
+                <label for="timestamp">Timestamp (TS):</label>
+                <input type="text" id="timestamp" placeholder="Enter Timestamp [1-24]">
+            </div>
+
+            <div>
+                <label for="traffic">Traffic (T):</label>
+                <select id="traffic">
+                    <option value="Green">Green</option>
+                    <option value="Orange">Orange</option>
+                    <option value="Red">Red</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="intersection">Intersection (I):</label>
+                <select id="intersection">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="road-hierarchy">Road Hierarchy (RH):</label>
+                <select id="road-hierarchy">
+                    <option value=1>National Highway (NH)</option>
+                    <option value=2>State Highway (SH)</option>
+                    <option value=3>Major District Road (MDR)</option>
+                    <option value=4>Other District Road (ODR)</option>
+                    <option value=5>Village Road (VR)</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="latLong">Enter Latitude and Longitude (LatLong):</label>
+                <input type="text" id="latLong" placeholder="Enter Latitude, Longitude">
+            </div>
         
-        <div class="input-container">
-            <label for="latLong">Enter Latitude and Longitude:</label>
-            <input type="text" id="latLong" placeholder="Enter Latitude, Longitude">
-        </div>
-
+    </div>
         <button onclick="predictSpeed()">Predict Speed</button>
-
-        <p id="prediction"></p>
+        <!-- Add a span element for prediction with an ID -->
+        <p id="prediction"><span id="prediction-text"></span></p>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
