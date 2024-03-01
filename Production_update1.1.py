@@ -124,12 +124,24 @@ class ModelSaver:
     
     def save_model(self, model, model_name):
         current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        model_folder = 'models'
-        if not os.path.exists(model_folder):
-            os.makedirs(model_folder)
-        model_file = os.path.join(model_folder, f'{model_name}_{current_time}.pkl')
-        with open(model_file, 'wb') as model_file:
-            pickle.dump(model, model_file)
+        folder_name = 'models'
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+        file_path = os.path.join(folder_name, f'{model_name}_{current_time}.pkl')
+        with open(file_path, 'wb') as f:
+            pickle.dump(model, f)
+        return file_path
+
+    def save_best_model(self, model, model_name):
+        current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        folder_name = 'best_performing_model'
+        if not os.path.exists(folder_name):
+            os.makedirs(folder_name)
+        file_path = os.path.join(folder_name, f'{model_name}_{current_time}.pkl')
+        with open(file_path, 'wb') as f:
+            pickle.dump(model, f)
+        return file_path
+    
 
 
 if __name__ == "__main__":

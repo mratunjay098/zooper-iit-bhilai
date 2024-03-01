@@ -1,0 +1,6 @@
+INFO:root:Model: LinearRegression
+INFO:root:Mean Absolute Error: 13.932841
+INFO:root:R-squared: 0.667375
+INFO:root:Model: DecisionTreeRegressor
+INFO:root:Mean Absolute Error: 3.296410
+INFO:root:R-squared: 0.967573
