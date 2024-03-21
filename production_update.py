@@ -57,13 +57,15 @@ class ModelTrainer:
         dt_model.fit(X_train, y_train)
         return dt_model
     
-   def train_svm(self, X_train, y_train):
-        svr = SVR()
+    def train_svm(self, X_train, y_train):
+        svr = SVR(kernel='rbf', gamma='scale', epsilon=0.5, C=1)
         svr.fit(X_train, y_train)
         return svr
     
     def train_random_forest(self, X_train, y_train):
-        rfm = RandomForestRegressor()
+        rfm = RandomForestRegressor(max_depth=None, max_features='log2', criterion='mse', 
+                                    min_samples_leaf=11, min_samples_split=12, n_estimators=90, 
+                                    verbose=2, n_jobs=-1)
         rfm.fit(X_train, y_train)
         return rfm
 
